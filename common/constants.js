@@ -1,7 +1,10 @@
-// Every id a mod invents lives in one place. Item types are global: pick a range that no other mod
-// you run alongside uses, and keep it here so a collision is one file to look at.
+// Ids and numbers this mod invents.
 
+// Item ids are shared with every other mod on the server, so pick a block nobody else is using.
 export const ITEM_TYPE_PEBBLE = 9000;
 
-// How long the collector takes to produce one pebble, in ticks (a tick is 600ms by default).
-export const COLLECTOR_TICKS = 8;
+// Ticks between pebbles. A tick is 600ms.
+export const GENERATOR_TICKS = 8;
+
+// How often the browser asks the server for the tick count.
+export const CLOCK_REQUEST_MS = 2000;

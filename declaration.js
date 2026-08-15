@@ -1,14 +1,12 @@
-import {AbstractModDeclaration, ItemDefinition} from "@/sdk/common.js";
-import {CollectorType} from "./common/objectTypes.js";
+import {AbstractModDeclaration, ItemDefinition} from "@spup/sdk";
+import {PebbleGeneratorType} from "./common/objectTypes.js";
 import {ITEM_TYPE_PEBBLE} from "./common/constants.js";
+import {WorldClockRequestMessage} from "./common/messages.js";
+import {WorldClockEvent} from "./common/events.js";
 
 /**
- * The whole mod, as data: what it is called, what it adds, and what those things are made of. A
- * declaration is pure — no side effects, no engine access — which is why the same file describes
- * the mod to a server, a client, and the registry's checks.
- *
- * Add a sim.js for behavior the ObjectType model cannot express, or a client.js for bespoke
- * rendering and input. Neither is needed for a mod like this one.
+ * What this mod adds. Data only: no game code runs here, and the server, the browser and the mod
+ * registry all read the same file.
  */
 export class TemplateDeclaration extends AbstractModDeclaration {
 
@@ -23,16 +21,24 @@ export class TemplateDeclaration extends AbstractModDeclaration {
      * @returns {ObjectType[]}
      */
     get objectTypes() {
-        return [CollectorType];
+        return [PebbleGeneratorType];
     }
 
     /**
-     * Item type -> what it is called and how it draws.
+     * Anything this mod sends between browser and server has to be listed here, on both sides.
+     * @returns {Function[]}
+     */
+    get wireClasses() {
+        return [WorldClockRequestMessage, WorldClockEvent];
+    }
+
+    /**
+     * Item id to its name, sprite and color.
      * @returns {Object.<number, ItemDefinition>}
      */
     get items() {
         return {
-            [ITEM_TYPE_PEBBLE]: new ItemDefinition("Pebble", "items/1-gray", 0x9AA0A6),
+            [ITEM_TYPE_PEBBLE]: new ItemDefinition("Pebble", "items/pebble", 0xFFFFFF),
         };
     }
 }

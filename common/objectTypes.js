@@ -4,33 +4,34 @@ import {
     PlacementRule,
     GeneratorBehavior,
     Direction,
-} from "@/sdk/common.js";
-import {ITEM_TYPE_PEBBLE, COLLECTOR_TICKS} from "./constants.js";
+} from "@spup/sdk";
+import {ITEM_TYPE_PEBBLE, GENERATOR_TICKS} from "./constants.js";
 
 /**
- * One placeable: a 1x1 machine that needs no input and pushes a pebble out of its top port.
+ * A machine players can build: it takes nothing in and pushes a pebble out of its top side, where a
+ * belt or a pipe can pick it up.
  *
- * The pieces worth knowing:
- *   toolId       a number unique within your mod; it orders the toolbar.
- *   geometry     "1x1", "2x2", "1x2", "3x3" — how many tiles it occupies.
- *   textureName  a frame in an atlas the loadout has. "demo-machine/0" comes from the base
- *                textures; ship your own atlas (sprites.png + sprites.json beside this file's mod
- *                root) and name its frames instead.
- *   behavior     what it does each tick. GeneratorBehavior produces from nothing; MachineBehavior
- *                consumes inputs by recipe; ExtractorBehavior sits on a resource.
+ * toolId       its place in the toolbar; any number, unique inside this mod.
+ * geometry     how many tiles it covers: "1x1", "1x2", "2x2", "3x3".
+ * textureName  a sprite from sprites.png, under the name sprites.json gives it.
+ * behavior     what it actually does. GeneratorBehavior makes an item out of nothing;
+ *              MachineBehavior turns input items into output ones; ExtractorBehavior digs up the
+ *              tile it stands on.
  */
-export const CollectorType = new ObjectType({
-    name: "PebbleCollector",
+export const PebbleGeneratorType = new ObjectType({
+    name: "PebbleGenerator",
     toolId: 1,
+    // One tile above the machine, pointing away from it. Positions are relative to the machine.
     outputPorts: [new PortDefinition("out", {x: 0, y: -1, direction: Direction.UP})],
     geometry: "1x1",
     renderConnections: true,
-    textureName: "demo-machine/0",
-    label: "Pebble Collector",
+    textureName: "generator/0",
+    label: "Pebble Generator",
     inspectable: true,
+    // Building one on top of another replaces it, instead of being refused.
     placement: new PlacementRule({replaceSameKind: true}),
     behavior: new GeneratorBehavior({
-        processingTicks: COLLECTOR_TICKS,
+        processingTicks: GENERATOR_TICKS,
         output: ITEM_TYPE_PEBBLE,
     }),
 });

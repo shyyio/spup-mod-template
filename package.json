@@ -5,12 +5,18 @@
     "description": "A starting point for a Shy's Power-Up Factory mod",
     "type": "module",
     "scripts": {
-        "build": "spup-mod-builder build . dist --version 1.0.0",
-        "check": "spup-mod-builder check dist",
-        "test": "node --import @spup/mod-builder/test-loader --test *.spec.js"
+        "dev": "spup-dev client",
+        "build": "spup-mod-builder build",
+        "check": "spup-mod-builder check",
+        "test": "node --import @spup/game-server/test-loader --test test/*.spec.js",
+        "dev:server": "spup-dev server"
     },
     "devDependencies": {
-        "@spup/mod-builder": "^1.0.0"
+        "@spup/game-client": "^2.0.0",
+        "@spup/game-server": "^2.0.0",
+        "@spup/mod-builder": "^2.0.0",
+        "@spup/sdk": "^2.0.0",
+        "pixi.js": "^8.19.0"
     },
     "engines": {
         "node": ">=20"
